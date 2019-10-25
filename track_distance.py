@@ -60,7 +60,3 @@ def haversine(radA, radB):
   xB, yB = m.radians(radB[0]), m.radians(radB[1])
   hav = m.sin((xB - xA) / 2)**2 + m.cos(xA) * m.cos(xB) * m.sin((yB - yA) / 2)**2
   return m.asin(m.sqrt(hav))
-
-# For testing
-#if __name__ == '__main__':
-#  print(cumulative_track_distance('targetData/Move_2019_05_19_17_41_13_Running.gpx'))
