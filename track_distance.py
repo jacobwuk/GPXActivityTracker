@@ -9,10 +9,9 @@ import math as m
 from lxml import etree as et
 # Average radius of Earth, in meters
 # NASA, volumetric mean radius from: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html
-EARTH_RADIUS = 6371000.0
+EARTH_RADIUS = 6371000
 
 def cumulative_track_distance(filename):
-  # load the file
   tree = et.parse(filename)
   root = tree.getroot()
   # root currently points towards {default}gpx 
@@ -32,11 +31,11 @@ def cumulative_track_distance(filename):
       coords.append( (float(pt.get('lat')), float(pt.get('lon'))) )
 
   havDist = 0
-  # cumulative dist = SUM[dist(i, i + 1)], i \in coords, \in [0, N - 2]
+  # cumulative dist = SUM[dist(i, i + 1)], i \in coords, i \in [0, N - 2]
   for i in range(len(coords) - 1):
     havDist = havDist + haversine_distance(coords[i], coords[i + 1])
 
-  return dist
+  return havDist
 
 
 def haversine_distance(cordA, cordB):
@@ -59,9 +58,9 @@ def haversine(radA, radB):
   """
   xA, yA = m.radians(radA[0]), m.radians(radA[1])
   xB, yB = m.radians(radB[0]), m.radians(radB[1])
-  hav = m.asin(m.sqrt((m.sin((xB - xA) / 2)**2) + m.cos(xA) * m.cos(xB) * m.sin((yB - yA) / 2)**2))
-  return hav
+  hav = m.sin((xB - xA) / 2)**2 + m.cos(xA) * m.cos(xB) * m.sin((yB - yA) / 2)**2
+  return m.asin(m.sqrt(hav))
 
 # For testing
-if __name__ == '__main__':
-  print(cumulative_track_distance('targetData/Move_2019_05_19_17_41_13_Running.gpx')/1609)
+#if __name__ == '__main__':
+#  print(cumulative_track_distance('targetData/Move_2019_05_19_17_41_13_Running.gpx'))
