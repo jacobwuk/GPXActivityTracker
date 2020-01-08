@@ -1,30 +1,12 @@
-import sys
-import os
+import sys, os, glob
 import track_distance
 from pathlib import Path
 
-if __name__ == '__main__':
-  # might just want to iter over them for a time savings perspective
-  # although that's probably premature optimization
-  
-  # was used to test out os.listdir() iteration
-  # num = 0
-  # might want to use Path from pathlib
-  #for file in os.listdir('targetData/'):
-  #  filename = os.fsdecode(file)
-  #  if filename.endswith('.gpx'):
-  #    num = num + 1
-  #    print(num)
-
-  # .iterdir() only considers 
-  for p in Path('targetData/').iterdir():
-    if p.suffix == '.gpx':
-      f = open(p)
-      print(p.stat().st_size)
-      print(p)
-
-  #print(num)
-
-
-  # iterate over all .gpx files in the current directory and 
-  print('do things')
+if __name__ == '__main__':  
+  # Scan the current directory (and any sub-dirs) for .gpx files
+    #TODO: when settings/storage is figured out this can be converted to read
+    # the specified storage location (and check that it exists) by kwargs
+  for p in glob.glob('**/*.gpx', recursive=True):
+    f = open(p)
+    print('file:', Path(p).stem)
+    print('meters covered:', track_distance.cumulative_track_distance(f), '\n')
