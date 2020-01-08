@@ -5,7 +5,7 @@ from lxml import etree as et
 EARTH_RADIUS = 6371000
 
 def cumulative_track_distance(filename):
-  """Computes the cumulative distance traversed in a .gpx file.
+  """Computes the cumulative distance traversed in a .gpx file, in meters.
 
   Sums up the distance between each point in the file. NOTE: Currently all 
   point->point transistions are treated as valid: this method does not check for continuity.
