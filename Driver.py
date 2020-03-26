@@ -1,6 +1,11 @@
+#!/usr/bin/env python3
+
 import sys, os, glob
 import track_distance
 from pathlib import Path
+
+# Default repo and switch if input?
+DEFAULT_GPX_DIR = Path(Path.home(), '.gpx')
 
 def locate_gpx_files(sourceDir='.'):
   """ Returns all .gpx files in the current or specified directory, recursively
@@ -17,10 +22,12 @@ def locate_gpx_files(sourceDir='.'):
       print(sourceDir, 'is not a valid directory!')
 
 def main():
+  # TODO: Handle input path from cli
+  
   # Scan the current directory (and any sub-dirs) for .gpx files
     #TODO: when settings/storage is figured out this can be converted to read
     # the specified storage location (and check that it exists -> use 'with' is a good idea)
-  gpxFiles = locate_gpx_files(Path(Path.home(), '.gpx'))
+  gpxFiles = locate_gpx_files(DEFAULT_GPX_DIR)
   print('{0} file(s) found'.format(len(gpxFiles)))
   for p in gpxFiles:
     with open(p) as f:
