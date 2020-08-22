@@ -8,15 +8,16 @@ def cumulative_track_distance(filename):
   """Computes the cumulative distance traversed in a .gpx file, in meters.
 
   Sums up the distance between each point in the file. NOTE: Currently all 
-  point->point transistions are treated as valid: this method does not check for continuity.
+  point->point transistions are treated as valid; this method does not check
+  for continuity. Does not account for changes in elevation.
   
   Args:
-    filename: The name of a .gpx file.  
+    filename: The name of a .gpx file.
+
+  Returns:
+    The cumulative distance, in meters, traversed in the .gpx file  
   """
   
-  # figure out file not found error handling here 
-
-
   tree = et.parse(filename)
   root = tree.getroot()
   # root currently points towards {default}gpx 
@@ -24,6 +25,7 @@ def cumulative_track_distance(filename):
   trkRoot = root.find('trk', root.nsmap)
   # hold the extracted (lat, long) as a tuples in decimal degrees
   coords = []
+  elev = []
 
   # Activities can be segmented, accumulate points from all segments 
   # TODO: Decide how to deal with "disjoint" segments. For now, the segments
@@ -42,7 +44,7 @@ def cumulative_track_distance(filename):
       coords.append( (float(pt.get('lat')), float(pt.get('lon'))) )
 
   havDist = 0
-  # cumulative dist = SUM[dist(i, i + 1)], i \in coords, i \in [0, N - 2]
+  
   for i in range(len(coords) - 1):
     havDist = havDist + haversine_distance(coords[i], coords[i + 1])
 
