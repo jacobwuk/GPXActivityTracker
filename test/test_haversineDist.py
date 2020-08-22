@@ -3,10 +3,12 @@ import unittest
 from track_distance import haversine_distance
 
 class TestHaversine(unittest.TestCase):
+	#TODO get precise numbers, concrete examples
+	# also test out smaller increments (as that's the real goal of the project)
 	
-	# pole to pole is ~20,000km
+	# pole to pole is ~20,000km 
 	def test_poleToPole(self):
-		self.assertEqual(20000, int(haversine_distance((90,180),(-90,180))))
+		self.assertEqual(20000000, int(haversine_distance((90,180),(-90,180))))
 
 	# this result pulled from scikit learn's haversine function... which is the same calculation
 	# probably want to find better examples
